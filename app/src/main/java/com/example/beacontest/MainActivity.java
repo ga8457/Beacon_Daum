@@ -118,14 +118,14 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         public void handleMessage(Message msg) {
 
                 for (Beacon beacon:beaconList) {
-                    String beaconinfo = "UUID: " + beacon.getId1() + " \nMajor: " + beacon.getId2() + "\nMinor: " + beacon.getId3() + " \n비콘과의 떨어진 거리: " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n"
-                            + "연동된 비콘이름: " + beacon.getBluetoothName() + " \n맥주소: " + beacon.getBluetoothAddress() + "\n신호량: " + beacon.getRssi();
+                        String beaconinfo = "UUID: " + beacon.getId1() + " \nMajor: " + beacon.getId2() + "\nMinor: " + beacon.getId3() + " \n비콘과의 떨어진 거리: " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n"
+                                + "연동된 비콘이름: " + beacon.getBluetoothName() + " \n맥주소: " + beacon.getBluetoothAddress() + "\n신호량: " + beacon.getRssi();
 
-
-                    if (beacon.getDistance() > 1.0) {
-                        Toast.makeText(MainActivity.this, "비콘이 주변에 있습니다(1m) Daum으로 이동", Toast.LENGTH_SHORT).show();
-                        daum_handler.sendEmptyMessage(1);
+                    if (beacon.getDistance() < 1.0) {
+                        Toast.makeText(MainActivity.this, "비콘이 주변에 있습니다" + "("+ Double.parseDouble(String.format("%.3f", beacon.getDistance()))+"m)", Toast.LENGTH_SHORT).show();
                         beaconManager.unbind(MainActivity.this);
+                        daum_handler.sendEmptyMessage(0);
+
                     } else {
                         Log.d("Distance", "1m 이상");
                     }

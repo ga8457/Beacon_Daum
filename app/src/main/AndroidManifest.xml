@@ -11,7 +11,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/bitcon"
-        android:label="비콘 테스트"
+        android:label="@string/app_name"
         android:roundIcon="@drawable/bitcon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

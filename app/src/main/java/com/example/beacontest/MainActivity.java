@@ -4,6 +4,7 @@ package com.example.beacontest;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     private List<String> list = new ArrayList<String>();
     private ListView listView;
     private WebView webView;
+    private TextView textView;
     private String Url = "";
 
     @SuppressLint("JavascriptInterface")
@@ -79,9 +82,12 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         listView = (ListView)findViewById(R.id.listView);
+
         listView.setFocusable(false);
 
+        textView = (TextView)findViewById(R.id.textView);
         webView = (WebView)findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true); //자바스크립트 허용
         webView.setWebChromeClient(new WebChromeClient());
@@ -124,10 +130,11 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String word = (String)listView.getItemAtPosition(position); //어느 아이템을 눌렀는지
+                String a = "10010";
 
-                if(word.contains("10010")) {
+                if(word.contains(a)) {
                     webView.setVisibility(View.VISIBLE);
-                    webView.loadUrl(Url);
+                    webView.loadUrl("https://naver.com");
                 }
                 else if(word.contains("10002")) {
                     webView.setVisibility(View.VISIBLE);
@@ -271,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 beaconList.clear();
                 list.clear();
                 arrayAdapter.notifyDataSetChanged();
+                webView.setVisibility(View.GONE);
                 try {
                     beaconManager.stopRangingBeaconsInRegion(region);
                     beaconManager.stopMonitoringBeaconsInRegion(region);

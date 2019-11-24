@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:title="검색"
+        android:icon="@drawable/search"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu"
+        android:title="중지"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu2"
+        android:title="비콘 등록"
+        app:showAsAction="never" />
+
+</menu>

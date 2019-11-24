@@ -23,5 +23,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'org.altbeacon:android-beacon-library:2+'
     implementation files('src/libs/AXABeaconSDK-1.1.0.jar')
+    implementation 'androidx.mediarouter:mediarouter:1.1.0'
 
 }

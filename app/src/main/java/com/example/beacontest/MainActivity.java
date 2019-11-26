@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent Add_Intent = new Intent(MainActivity.this, WebViewActivity.class);
+                    Intent Add_Intent = new Intent(MainActivity.this, EditActivity.class);
                     Add_Intent.putExtra("add", "add");
                     startActivity(Add_Intent);
                 }

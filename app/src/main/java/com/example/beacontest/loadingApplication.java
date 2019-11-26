@@ -31,6 +31,8 @@ public class loadingApplication extends Activity {
                 MyApplication.beaconlist.add(temp);
             }
 
+            Toast.makeText(getApplicationContext(), "DB 받아오기 완료", Toast.LENGTH_SHORT).show();
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

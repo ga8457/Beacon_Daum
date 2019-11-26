@@ -5,84 +5,175 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/url_text"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:text="URL"
+        android:textAllCaps="false"
+        android:textColor="@color/cursorColor"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/url_edit"
+        app:layout_constraintEnd_toStartOf="@+id/url_edit"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/major_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="9dp"
+        android:text="Major"
+        android:textAllCaps="false"
+        android:textColor="@color/cursorColor"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/minor_edit"
+        app:layout_constraintEnd_toStartOf="@+id/major_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/major_edit" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginRight="37dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
         android:text="등록"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/major_edit"
-        app:layout_constraintEnd_toStartOf="@+id/major_edit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/major_edit" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/url_edit" />
 
     <EditText
         android:id="@+id/uuid_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="254dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="126dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginRight="53dp"
         android:ems="10"
         android:hint="UUID"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/name_edit" />
+        app:layout_constraintStart_toStartOf="@+id/uuid_text"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/major_edit"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="142dp"
-        android:layout_marginRight="142dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="78dp"
+        android:layout_marginRight="78dp"
+        android:layout_marginBottom="9dp"
         android:ems="10"
         android:hint="Major"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/minor_edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/major_text" />
 
     <EditText
         android:id="@+id/minor_edit"
-        android:layout_width="128dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="22dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginRight="75dp"
         android:ems="10"
         android:hint="Minor"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/uuid_edit"
-        app:layout_constraintEnd_toEndOf="@+id/major_edit" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/minor_text"
+        app:layout_constraintTop_toBottomOf="@+id/uuid_edit" />
 
     <EditText
         android:id="@+id/name_edit"
         style="@android:style/Widget.Holo.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="78dp"
+        android:layout_marginRight="78dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/name_text"
+        app:layout_constraintTop_toBottomOf="@+id/minor_edit" />
 
     <EditText
         android:id="@+id/url_edit"
-        android:layout_width="344dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="78dp"
+        android:layout_marginRight="78dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="https://"
-        app:layout_constraintBottom_toTopOf="@+id/name_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/url_text"
+        app:layout_constraintTop_toBottomOf="@+id/name_edit" />
+
+    <TextView
+        android:id="@+id/uuid_text"
+        android:layout_width="62dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginBottom="10dp"
+        android:text="UUID"
+        android:textAllCaps="false"
+        android:textColor="@color/cursorColor"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/major_text"
+        app:layout_constraintEnd_toStartOf="@+id/major_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/uuid_edit" />
+
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:text="Name"
+        android:textAllCaps="false"
+        android:textColor="@color/cursorColor"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/name_edit"
+        app:layout_constraintEnd_toStartOf="@+id/name_edit"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/minor_text"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:text="Minor"
+        android:textAllCaps="false"
+        android:textColor="@color/cursorColor"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/minor_edit"
+        app:layout_constraintEnd_toStartOf="@+id/minor_edit"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditActivity extends AppCompatActivity {
+    private TextView uuid_text, major_text, minor_text, name_text, url_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,21 @@ public class EditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String mod = intent.getStringExtra("mod");
+        String add = intent.getStringExtra("add");
 
         if(mod != null) {
+            String uuid = intent.getStringExtra("UUID");
+            String major = intent.getStringExtra("Major");
+            String minor = intent.getStringExtra("Minor");
+            intent.putExtra("uuid", uuid);
+            intent.putExtra("major", major);
+            intent.putExtra("minor", minor);
+
+            uuid_edit.setText(uuid);
+            major_edit.setText(major);
+            minor_edit.setText(minor);
+        }
+        else if(add != null) {
             String uuid = intent.getStringExtra("UUID");
             String major = intent.getStringExtra("Major");
             String minor = intent.getStringExtra("Minor");
@@ -47,7 +62,6 @@ public class EditActivity extends AppCompatActivity {
                 String Minor = minor_edit.getText().toString();
                 String Name = name_edit.getText().toString();
                 String Url = url_edit.getText().toString();
-
 
             }
         });

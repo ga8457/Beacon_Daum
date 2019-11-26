@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".EditActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/EditTheme"/>
     </application>
 
 </manifest>

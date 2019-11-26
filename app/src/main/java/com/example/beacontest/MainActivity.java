@@ -58,6 +58,7 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -74,37 +75,17 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     private final String MAC_address = "D0:B5:C2:C7:90:47";
     private List<String> list = new ArrayList<String>();
     private ListView listView;
-    private WebView webView;
-    private String Url = "https://www.naver.com";
     private long backTime;
     private Toast toast;
     private List<String> resultList = new ArrayList<String>();
-
     private TextView textView;
-    //String url = "http://211.61.141.25/work2/beacon/write_ok.php";
-    //public GettingPHP gPHP;
+    private int search = 1;
+    private int count = 1;
 
-    @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        textView = (TextView)findViewById(R.id.textView);
-        //gPHP.execute(url);
-
-
-        listView = (ListView)findViewById(R.id.listView);
-        listView.setFocusable(false);
-        webView = (WebView)findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true); //자바스크립트 허용
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.setWebViewClient(new WebViewClient()); //새창이 아닌 지금 창에서 웹뷰 뜨게하기
-        webView.addJavascriptInterface(new AndroidBridge(), "android");
-
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultList);
-        listView.setAdapter(arrayAdapter);
-        webView.setVisibility(View.GONE);
 
         //위치 권한 설정
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION}, 2);
@@ -114,6 +95,27 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         // 비콘 탐지를 시도한다
         //beaconManager.bind(MainActivity.this);
+
+        textView = (TextView) findViewById(R.id.textView);
+        //gPHP.execute(url);
+
+
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setVisibility(View.GONE);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultList);
+        listView.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String temp = resultList.get(position);
+                String arrays[] = temp.split("\n");
+                String name = arrays[1].split(":")[1];
+                dialog(name, arrays);
+            }
+        });
+    }
 
         /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -132,21 +134,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         });*/
 
         //리스트 눌렀을 시 클릭이벤트
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String word = (String)listView.getItemAtPosition(position); //어느 아이템을 눌렀는지
-                webView.setVisibility(View.VISIBLE);
-
-                String a = "10002";
-
-                    if(word.contains(a)) {
-                        webView.loadUrl(Url);
-                    }
-            }
-        });
-    }
-
 
 
 
@@ -187,23 +174,22 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 if (beacons.size() > 0) {
                     beaconList.clear();
                     beaconList = (List<Beacon>) beacons;
-                }
-                else {
+                } else {
                     Log.d("1", "비콘 없음");
                 }
             }
         });
     }
 
-    public void beaconscanStart(){
+    public void beaconscanStart() {
+        Log.d("end_", "시작");
         beaconManager.bind(MainActivity.this);
         Toast.makeText(getApplicationContext(), "5초 간 비콘스캔을 시작합니다", Toast.LENGTH_SHORT).show();
 
-        new Thread(){
-            @Override
+        new Thread() {
             public void run() {
-                int num=0;
-                while(num<5){
+                int num = 0;
+                while (num < 5) {
                     handler.sendEmptyMessage(0);
                     try {
                         Thread.sleep(1000);
@@ -217,7 +203,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         }.start();
     }
 
-    public void beaconscanStop(){
+    public void beaconscanStop() {
+        Log.d("end_", "끝");
         try {
             beaconManager.stopRangingBeaconsInRegion(region);
             beaconManager.stopMonitoringBeaconsInRegion(region);
@@ -235,55 +222,57 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             if (beaconList.size() > 0) {
                 for (int i = 0; i < beaconList.size(); i++) {
                     Beacon beacon = beaconList.get(i);
-                    info = "\n이름: " + beacon.getBluetoothName() + "\nUUID: " + beacon.getId1() + "\nMajor: " + beacon.getId2() + "\nMinor: " + beacon.getId3();
+                    info ="이름: " + beacon.getBluetoothName() + "\nUUID:" + beacon.getId1() + "\nMajor:" + beacon.getId2() + "\nMinor:" + beacon.getId3();
                         /*if(beacon.getDistance() < 1.0) {
                             //list.add(google);
                         }*/
                     list.add(info);
+                    arrayAdapter.notifyDataSetChanged();
                 }
+                //10002 54478 cc
 
-                for(int i=0; i<list.size(); i++){
-                    if(!resultList.contains(list.get(i))){
+                for (int i = 0; i < list.size(); i++) {
+                    if (!resultList.contains(list.get(i))) {
                         resultList.add(list.get(i));
                     }
                 }
-                beaconList.clear();
-                arrayAdapter.notifyDataSetChanged();
-
+                arrayAdapter.notifyDataSetInvalidated();
                 list.clear();
             }
         }
     };
 
-    /*public void dialog(String msg){
-        String daumSite = "https://daum.net";
-        String googleSite = "https://google.com";
+    public void dialog(String name, String arrays[]) {
+        String UUID = arrays[1].split(":")[1];
+        String Major = arrays[2].split(":")[1];
+        String Minor = arrays[3].split(":")[1];
+        String url = null;
 
-        if(msg.equals(daum)){
-            url = daumSite;
-        }
-        else if(msg.equals(google)){
-            url = googleSite;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(msg);
-        builder.setMessage("확인을 누르시면 " + msg + "로 이동됩니다");
-        builder.setIcon(R.drawable.bitcon);
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+        for (int i = 0; i < MyApplication.listcount; i++) {
+            String[] temp_list = MyApplication.beaconlist.get(i);
+            if (UUID.equals(temp_list[0]) && Major.equals(temp_list[1]) && Minor.equals(temp_list[2]))
+            {
+                url = temp_list[4];
             }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.create().show();
-    }*/
+        }
+                        String finalUrl = url;
+                        if (finalUrl != null) {
+                            MyApplication.url = finalUrl;
+                            // intent = new Intent(Intent.ACTION_VIEW, Uri.parse(finalUrl));
+                            Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "비콘을 등록해주세요", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+
+                            intent.putExtra("UUID", UUID);
+                            intent.putExtra("Major", Major);
+                            intent.putExtra("Minor", Minor);
+                            intent.putExtra("mod", "mod");
+                            startActivity(intent);
+                        }
+    }
 
 
     //액션바 생성
@@ -294,50 +283,49 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-                beaconscanStart();
-                break;
+        int id = item.getItemId();
 
-            case R.id.menu:
-                resultList.clear();
-                arrayAdapter.notifyDataSetChanged();
-                webView.setVisibility(View.GONE);
-                try {
-                    beaconManager.stopRangingBeaconsInRegion(region);
-                    beaconManager.stopMonitoringBeaconsInRegion(region);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                beaconManager.unbind(this);
-                break;
-
-            case R.id.menu2:
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("비콘 등록");
-                builder.setMessage("비콘 정보를 등록하시겠습니까?");
-                builder.setIcon(R.drawable.bitcon);
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "비콘 등록", Toast.LENGTH_SHORT).show();
-                        webView.setVisibility(View.VISIBLE);
-                        webView.loadUrl("http://211.61.141.25/work2/beacon/write.php");
-                    }
-                });
-
-                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //아무 반응 없음
-                    }
-                });
-                builder.create().show();
-
-            default:
-                return false;
+        if (id == R.id.search) {
+            beaconList.clear();
+            arrayAdapter.notifyDataSetChanged();
+            listView.setVisibility(View.VISIBLE);
+            beaconscanStart();
+            search = 0;
         }
-        return false;
+        else if (id == R.id.menu) {
+            resultList.clear();
+            arrayAdapter.notifyDataSetChanged();
+            try {
+                beaconManager.stopRangingBeaconsInRegion(region);
+                beaconManager.stopMonitoringBeaconsInRegion(region);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            beaconManager.unbind(this);
+
+        } else if (id == R.id.menu2) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("비콘 등록");
+            builder.setMessage("비콘 정보를 등록하시겠습니까?");
+            builder.setIcon(R.drawable.bitcon);
+            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent Add_Intent = new Intent(MainActivity.this, WebViewActivity.class);
+                    Add_Intent.putExtra("add", "add");
+                    startActivity(Add_Intent);
+                }
+            });
+
+            builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //아무 반응 없음
+                }
+            });
+            builder.create().show();
+        }
+        return true;
     }
 
 
@@ -362,17 +350,4 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return true;
         }
     }*/
-
-    private class AndroidBridge {
-        @JavascriptInterface
-        public void webViewFinish(){
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    webView.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "정상적으로 비콘정보가 등록되었습니다", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
 }
